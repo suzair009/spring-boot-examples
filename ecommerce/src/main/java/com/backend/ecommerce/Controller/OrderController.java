@@ -26,6 +26,12 @@ public class OrderController {
         return new ResponseEntity<>(_order, HttpStatus.CREATED);
     }
 
+    @PostMapping("/createBulkOrders")
+    public ResponseEntity<List<Orders>> createBulkOrders(@RequestBody List<Orders> orders){
+        List<Orders> _order = orderService.createAllOrders(orders);
+        return new ResponseEntity<>(_order,HttpStatus.OK);
+    }
+
     @GetMapping("/getId/{Id}")
     public ResponseEntity<Orders> getOrderById(@PathVariable("Id") Long orderid){
         Orders order = orderService.getOrderById(orderid);
