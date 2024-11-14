@@ -24,6 +24,13 @@ public class OrdersServiceImpl implements OrderService {
     }
 
     @Override
+    public List<Orders> createAllOrders(List<Orders> orders) {
+        return orderRespository.saveAll(orders);
+    }
+
+
+
+    @Override
     public Orders getOrderById(Long Id) {
         Optional<Orders> order = orderRespository.findById(Id);
         return order.get();

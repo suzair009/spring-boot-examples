@@ -9,6 +9,8 @@ import java.util.Optional;
 public interface OrderService {
     Orders createOrders(Orders orders);
 
+    List<Orders> createAllOrders(List<Orders> orders);
+
    Orders getOrderById(Long Id);
 
    List<Orders> showAllOrders();
