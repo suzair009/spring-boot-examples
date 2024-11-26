@@ -7,15 +7,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.antlr.v4.runtime.misc.NotNull;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@EntityListeners(AuditingEntityListener.class)
+@Entity(name="User")
 @Table(name="users")
 public class User {
 
@@ -27,7 +25,7 @@ public class User {
         private String userName;
 
     @Column(name="user_id")
-    private String userId;
+        private String userId;
 
 
     @Column(name = "password")
@@ -36,7 +34,7 @@ public class User {
     @OneToOne
     @JoinColumn(name="employeeId",unique = true, referencedColumnName = "id")
     @JsonBackReference
-    private Employee employee;
+    private Employees employee;
 
 
 

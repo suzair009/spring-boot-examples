@@ -1,22 +1,21 @@
 package com.ems.beta.app_ems.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@EntityListeners(AuditingEntityListener.class)
+@Entity(name = "projects")
 @Table(name="projects")
 
 public class Projects {
@@ -32,12 +31,14 @@ public class Projects {
     private int status;
 
     @ManyToMany(mappedBy = "projects",fetch = FetchType.LAZY)
-    @JsonManagedReference
-    private Set<Employee> employees;
+    @JsonIgnore
+    private Set<Employees> employees;
 
     @OneToMany(mappedBy = "projects",cascade = CascadeType.ALL)
     private Set<EmployeeProject> employeeProjects;
 
+    @OneToMany(mappedBy = "projects",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private List<TaskProject> taskProjects;
 
 
 }

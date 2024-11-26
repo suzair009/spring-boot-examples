@@ -15,7 +15,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@EntityListeners(AuditingEntityListener.class)
 @Table(name="departments")
 public class Department {
 
@@ -31,7 +30,7 @@ public class Department {
 
     @OneToMany(mappedBy = "department",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JsonManagedReference
-    private List<Employee> employee;
+    private List<Employees> employee;
 
 
 

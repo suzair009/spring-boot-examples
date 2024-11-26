@@ -1,7 +1,7 @@
 package com.ems.beta.app_ems.Service.Imp;
 
 import com.ems.beta.app_ems.Entity.Department;
-import com.ems.beta.app_ems.Entity.Employee;
+import com.ems.beta.app_ems.Entity.Employees;
 import com.ems.beta.app_ems.Entity.Projects;
 import com.ems.beta.app_ems.Entity.User;
 import com.ems.beta.app_ems.Repository.DepartmentRepository;
@@ -16,7 +16,10 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Getter
@@ -24,8 +27,12 @@ import java.util.List;
 @AllArgsConstructor
 public class EmpServiceImpl implements EmpService {
 
-    @Autowired
-    private EmployeeRepository employeeRepository;
+   private final EmployeeRepository employeeRepository;
+
+   @Autowired
+   public EmpServiceImpl(EmployeeRepository employeeRepository) {
+       this.employeeRepository = employeeRepository;
+   }
 
     @Autowired
     private UserRepository userRepository;
@@ -38,18 +45,18 @@ public class EmpServiceImpl implements EmpService {
 
 
     @Override
-    public List<Employee> createEmployee(List<Employee> emp) {
+    public List<Employees> createEmployee(List<Employees> emp) {
         return employeeRepository.saveAll(emp);
     }
 
     @Override
-    public Employee getOrderById(Long empId) {
+    public Employees getOrderById(Long empId) {
         return employeeRepository.findById(empId).get();
     }
 
     @Override
     @Transactional
-    public Employee createEmployeeWithUser(Employee employee, User user) {
+    public Employees createEmployeeWithUser(Employees employee, User user) {
 
         //create a bidirectional link
         //parent to child (entity)
@@ -64,7 +71,7 @@ public class EmpServiceImpl implements EmpService {
     }
 
     @Override
-    public Employee createEmployeeWithDepartment(Employee employee,Long deptId) {
+    public Employees createEmployeeWithDepartment(Employees employee, Long deptId) {
        Department dpt  = departmentRepository.findById(deptId).get();
        employee.setFirstName(employee.getFirstName());
        employee.setLastName(employee.getLastName());
@@ -74,8 +81,8 @@ public class EmpServiceImpl implements EmpService {
     }
 
     @Override
-    public Employee createEmployeeToProject(Long EmployeeId, Long ProjectId) {
-        Employee employee = employeeRepository.findById(EmployeeId)
+    public Employees createEmployeeToProject(Long EmployeeId, Long ProjectId) {
+        Employees employee = employeeRepository.findById(EmployeeId)
                 .orElseThrow(()-> new RuntimeException("Employee not found"));
 
         Projects projects = projectsRepository.findById(ProjectId)
@@ -89,6 +96,79 @@ public class EmpServiceImpl implements EmpService {
 
     }
 
+    public List<String> findFirstNameAndLastName(){
+        List<Object[]> results = employeeRepository.findFirstNameAndLastName();
+        List<String> formattedResults = new ArrayList<>();
+        for (Object[] row : results) {
+            String firstName = (String) row[0];
+            String lastName = (String) row[1];
+            formattedResults.add("First Name: " + firstName + ", lastName: " + lastName);
+        }
+        return formattedResults;
+    }
 
+    public List<String> getFirstAndLastNameById(Long Id){
+       List<Object[]> results = employeeRepository.getFirstAndLastNameById(Id);
+        List<String> formattedResults = new ArrayList<>();
+        for(Object[] row:results){
+            String firstName = (String) row[0];
+            String lastName = (String) row[1];
+            formattedResults.add("firstName:"+firstName+", LastName: "+lastName);
+        }
+        return formattedResults;
+    }
+
+    public List<Map<String,Object>> getQuerySelector(String useridV){
+
+        List<Object[]> userids = employeeRepository.multipleQuerySelector(useridV);
+
+        //convert data to a redable list of maps
+        List<Map<String,Object>> response = userids.stream().map(records->{
+            Map<String,Object> _value = new HashMap<>();
+            _value.put("firstName",records[0]);
+            _value.put("lastName",records[1]);
+            _value.put("userId",records[2]);
+            _value.put("department",records[3]);
+            return _value;
+        }).toList();
+
+        return response;
+    }
+
+    public List<Map<String,Object>> fetchOverallData(String username,Long Id){
+        List<Object[]> results = employeeRepository.fetchOverallData(username,Id);
+
+        //convert data to a redable list of maps
+        List<Map<String,Object>> _response = results.stream().map(record->{
+            Map<String,Object> _value = new HashMap<>();
+            _value.put("firstName",record[0]);
+            _value.put("lastName",record[1]);
+            _value.put("userId",record[2]);
+            _value.put("department",record[3]);
+            _value.put("project",record[4]);
+            _value.put("taskName",record[5]);
+            _value.put("taskDetails",record[6]);
+            return _value;
+        }).toList();
+
+        return _response;
+    }
+
+    public List<Map<String,Object>> getSubQueryData(String username,Long Id,Long salaryAmount){
+        List<Object[]> results = employeeRepository.fetchAdvanceQueryData(username,Id,salaryAmount);
+        List<Map<String,Object>> mapValues = results.stream().map(record->{
+            Map<String,Object> _value = new HashMap<>();
+            _value.put("firstName",record[0]);
+            _value.put("lastName",record[1]);
+            _value.put("userId",record[2]);
+            _value.put("department",record[3]);
+            _value.put("project",record[4]);
+            _value.put("taskName",record[5]);
+            _value.put("taskDetails",record[6]);
+            return _value;
+        }).toList();
+
+        return mapValues;
+    }
 
 }

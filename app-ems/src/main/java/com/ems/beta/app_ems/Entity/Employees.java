@@ -1,26 +1,24 @@
 package com.ems.beta.app_ems.Entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.antlr.v4.runtime.misc.NotNull;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@EntityListeners(AuditingEntityListener.class)
+@Entity(name = "Employees")
 @Table(name="employees")
-public class Employee {
+public class Employees {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,13 +33,16 @@ public class Employee {
     @Column(name="email")
     private String email;
 
+    @Column(name="salaryV")
+    private double salaryV;
+
     @OneToOne(mappedBy = "employee",cascade = CascadeType.ALL)
     @JsonManagedReference
     private User user;
 
     @ManyToOne
     @JoinColumn(name="department_id",unique = true)
-    @JsonBackReference
+    @JsonIgnore
     private Department department;
 
     @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
