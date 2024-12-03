@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en"
+xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Select Expression</title>
+</head>
+<body>
+      <h3>Select Expression!!!</h3>
+      <table border="1" width="50%">
+          <thead>
+              <tr>
+                  <td>Link 1</td>
+                  <td>Link 2</td>
+              </tr>
+          </thead>
+          <tbody>
+                <tr>
+                    <td><a th:href="@{/variable-expression}">First Link Without Parameter</a></td>
+                    <td><a th:href="@{/expression/  variable-expression?empId={id}(id=${Id})}">Second  Link With Parameter</a></td>
+                </tr>
+          </tbody>
+      </table>
+</body>
+</html>

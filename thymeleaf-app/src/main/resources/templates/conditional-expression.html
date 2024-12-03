@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Conditional Expression</title>
+</head>
+<body>
+<h2>Conditional Expression</h2>
+<table border="1" width="50%">
+    <thead>
+    <tr>
+        <td>S#</td>
+        <td>Id</td>
+        <td>FirstName</td>
+        <td>LastName</td>
+        <td>Email</td>
+        <td>Role</td>
+        <td>Actions</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="employee , empStat: ${employee}">
+        <td th:text="${empStat.count}"></td>
+        <td th:text="${employee.Id}"></td>
+        <td th:text="${employee.firstName}"></td>
+        <td th:text="${employee.lastName}"></td>
+        <td th:text="${employee.email}"></td>
+        <td th:text="${employee.roleV}"></td>
+        <td th:if="${employee.roleV=='ADMIN' || employee.roleV=='MANAGER'}">UPDATE</td>
+        <td th:unless="${employee.roleV}=='ADMIN'">VIEW</td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

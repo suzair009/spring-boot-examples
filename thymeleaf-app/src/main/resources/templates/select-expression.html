@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en"
+xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Select Expression</title>
+</head>
+<body>
+      <h3>Select Expression!!!</h3>
+      <table border="1" width="50%">
+          <thead>
+              <tr>
+                  <td>Id</td>
+                  <td>FirstName</td>
+                  <td>LastName</td>
+                  <td>Email</td>
+                  <td>Role</td>
+              </tr>
+          </thead>
+          <tbody>
+                <tr th:object="${employee}">
+                    <td th:text="*{Id}"></td>
+                    <td th:text="*{firstName}"></td>
+                    <td th:text="*{lastName}"></td>
+                    <td th:text="*{email}"></td>
+                    <td th:text="*{roleV}"></td>
+                </tr>
+          </tbody>
+      </table>
+</body>
+</html>

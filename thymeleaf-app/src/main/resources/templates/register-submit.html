@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en"
+xmlns:th="https://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
+</head>
+<body>
+    <div class="form-container">
+        <h2>User Registration</h2>
+        <div class="form-group">
+            <label>Username: <span th:text="${userform.name}"></span></label>
+        </div>
+        <div class="form-group">
+            <label>Email: <span th:text="${userform.email}"></span></label>
+        </div>
+        <div class="form-group">
+            <label>Gender: <span th:text="${userform.gender}"></span></label>
+        </div>
+        <div class="form-group">
+            <label>Profession: <span th:text="${userform.profession}"></span></label>
+        </div>
+    </div>
+</body>
+</html>
