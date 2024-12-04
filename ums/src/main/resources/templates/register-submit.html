@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en"
+xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Show Data</title>
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
+</head>
+<body>
+    <div class="form-container">
+        <h2>User Registration</h2>
+        <div class="form-group">
+            <label for="username">Username: <span th:text="${userForm.name}"></span></label>
+        </div>
+    </div>
+</body>
+</html>
