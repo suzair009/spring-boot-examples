@@ -26,7 +26,7 @@ public class UserController {
     private DepartmentRepository departmentRepository;
 
 
-    @GetMapping("/user/register")
+        @GetMapping("/user/register")
     public String userRegister(Model model){
         User user = new User();
 
@@ -50,12 +50,7 @@ public class UserController {
     public String registerSave(Model model, @ModelAttribute User user){
 
         Integer _myCheckBoxVal = user.getIsadmin();
-        if(_myCheckBoxVal==null){
-            user.setIsadmin(0);
-        }
-        else{
-            user.setIsadmin(1);
-        }
+        user.setIsadmin(_myCheckBoxVal==null ? 0 : 1);
 
         model.addAttribute("userForm",user);
         userRepository.save(user);
