@@ -1,5 +1,6 @@
 package com.session.tutorials_dto.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
@@ -7,10 +8,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@Schema(
+        description = "User DTO Model Information"
 
+)
 public class Userdto {
     private Long Id;
     @NotEmpty(message = "FirstName should not be empty")
+
+    @Schema(
+            description = "User First Name"
+    )
     private String firstName;
     @NotEmpty(message = "LastName should not be empty")
     private String lastName;

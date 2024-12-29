@@ -8,6 +8,9 @@ import com.session.tutorials_dto.dto.Userdto;
 import com.session.tutorials_dto.exceptions.EmailAlreadyExceptionExist;
 import com.session.tutorials_dto.exceptions.ErrorDetails;
 import com.session.tutorials_dto.exceptions.ResourceNotFoundException;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +25,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-@Controller
+@Tag(
+        name="CRUD REST APIS for User Resource",
+        description = "Basic RESTAPI use for create user,update,delete,get all users"
+)
+@RestController
 @AllArgsConstructor
 @RequestMapping("/apis")
 public class UserController {
+
+    /*
+        swagger url
+        /swagger-ui/index.html
+     */
+
 
     @Autowired
     private UserService userService;
@@ -33,8 +46,15 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+    @Operation(
+            summary = "Create User",
+            description = "This function uses to create users"
+    )
 
-
+    @ApiResponse(
+            responseCode = "201",
+            description = "HTTP Status 201 Created"
+    )
     @PostMapping("/savedUsers")
     public ResponseEntity<Userdto> createUsers(@RequestBody @Valid  Userdto userdto){
 
@@ -46,11 +66,31 @@ public class UserController {
        return new ResponseEntity<>(_savedUser, HttpStatus.CREATED);
     }
 
+    @Operation(
+            summary = "Get User",
+            description = "This function uses to Get user Data"
+    )
+
+    @ApiResponse(
+            responseCode = "202",
+            description = "HTTP Status 201 Get"
+    )
+
     @GetMapping("userId/{Id}")
     public ResponseEntity<Userdto> getUserById(@PathVariable("Id") Long userId){
         Userdto userdto = userService.getUserById(userId);
         return ResponseEntity.ok(userdto);
     }
+
+    @Operation(
+            summary = "Update User",
+            description = "This function uses to update users"
+    )
+
+    @ApiResponse(
+            responseCode = "201",
+            description = "HTTP Status 201 Created"
+    )
 
     @PutMapping("/update/userId/{Id}")
     public ResponseEntity<Userdto> updateUserById(@RequestBody @Valid  Userdto userdto,
@@ -60,11 +100,31 @@ public class UserController {
         return ResponseEntity.ok(_updateUser);
     }
 
+    @Operation(
+            summary = "Show Users",
+            description = "This function uses to List All users"
+    )
+
+    @ApiResponse(
+            responseCode = "201",
+            description = "HTTP Status 201 Created"
+    )
+
     @GetMapping("/showAllUsers")
     public ResponseEntity<List<Userdto>> showAllUsers(){
         List<Userdto> userdto = userService.showAllUsers();
         return ResponseEntity.ok(userdto);
     }
+
+    @Operation(
+            summary = "Get Data By Email",
+            description = "Custom JPQL Method"
+    )
+
+    @ApiResponse(
+            responseCode = "201",
+            description = "HTTP Status 201 Getter"
+    )
 
     @GetMapping("/emailId/{email}")
     public ResponseEntity<List<Map<String,Object>>> getDataByEmailId(@PathVariable("email") String emailId){
